@@ -1,0 +1,6 @@
+persistencia/ConnectionPostgres.class
+controladores/PersonaController.class
+com/mycompany/tienda/TiendaMain.class
+entities/Item.class
+entities/Persona.class
+controladores/ItemController.class
