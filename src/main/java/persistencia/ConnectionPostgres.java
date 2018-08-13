@@ -16,12 +16,14 @@ import java.sql.Connection;
 public class ConnectionPostgres {
     
     private final String url = "jdbc:postgresql://localhost:5432/tienda";
-    private final String user = "fs21065";
-    private final String password = "fs21065pw";
+    private final String user = "postgres";
+    private final String password = "9410ger";
     
-     public Connection connect() {
+     public Connection connect() throws ClassNotFoundException, IllegalAccessException {
         Connection conn = null;
+       
         try {
+            Class.forName("org.postgresql.Driver");
             conn = DriverManager.getConnection(url, user, password);
             System.out.println("Connected to the PostgreSQL server successfully.");
         } catch (SQLException e) {

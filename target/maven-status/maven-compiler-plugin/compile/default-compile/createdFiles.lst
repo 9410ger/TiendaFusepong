@@ -1,6 +1,6 @@
-persistencia/ConnectionPostgres.class
-controladores/PersonaController.class
-com/mycompany/tienda/TiendaMain.class
-entities/Item.class
-entities/Persona.class
-controladores/ItemController.class
+controladores\ItemController.class
+com\mycompany\tienda\TiendaMain.class
+controladores\PersonaController.class
+entities\Persona.class
+entities\Item.class
+persistencia\ConnectionPostgres.class
