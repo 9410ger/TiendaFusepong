@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package persistencia;
+package com.mycompany.tienda.persistencia;
 
-import entities.Item;
+import com.mycompany.tienda.entities.Item;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,9 +24,15 @@ public class ItemService {
     ConnectionPostgres cn;
     Connection conex;
     
-    public ItemService() throws ClassNotFoundException, IllegalAccessException, SQLException{
+    public ItemService(){
         cn = new ConnectionPostgres();
-        conex = cn.connect();
+        try {
+            conex = cn.connect();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void saveItem(Item item){

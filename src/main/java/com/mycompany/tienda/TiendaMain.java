@@ -5,24 +5,19 @@
  */
 package com.mycompany.tienda;
 
-import entities.Item;
-import entities.Persona;
-import java.sql.SQLException;
-import persistencia.ItemService;
-import persistencia.PersonaService;
 
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  *
  * @author fs20165
  */
+@SpringBootApplication
 public class TiendaMain {
     
-    public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, SQLException{
-        ItemService it = new ItemService();
-        PersonaService ps = new PersonaService();
-        Persona p1 = new Persona("Persona1","persona1@fusepong.org","pers1","persona1");
-        ps.savePersona(p1);
-        
+    public static void main(String[] args){
+        SpringApplication.run(TiendaMain.class, args);
     }
     
 }
