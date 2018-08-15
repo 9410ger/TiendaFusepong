@@ -50,7 +50,7 @@ public class PersonaService {
             
     }
     
-    public Persona getPersonaByUserPw(String usuario,String pw){
+    public Boolean userLogin(String usuario,String pw){
         String sql = "select * from usuarios where usuario = ? and pw = ?";
         Persona p = new Persona();
         try {
@@ -67,7 +67,7 @@ public class PersonaService {
         } catch (SQLException ex) {
             Logger.getLogger(PersonaService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return p;
+        return p == null;
     }
     
     public Boolean adminLogIn(String usuario,String pw){

@@ -46,6 +46,12 @@ public class ItemController {
         return items;
     }
     
+    @RequestMapping(value = "/sold/items", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Item> getSoldItems(){
+        return is.soldItems();
+    }
+    
     @RequestMapping(value = "/item", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void saveItem(@RequestBody Item item){
@@ -53,11 +59,27 @@ public class ItemController {
         is.saveItem(item);
     }
     
-    @RequestMapping(value = "/item/{itemName}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/item/{itemId}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void deleteItemByName(@PathVariable String itemName){
+    public void deleteItemById(@PathVariable int itemId){
         //Servicio obtener todos los item
-        is.deleteItemByName(itemName);
+        is.deleteItemById(itemId);
+    }
+    
+    @RequestMapping(value = "/item", method = RequestMethod.PUT)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void updateItem(@RequestBody Item itemUpdate){
+        is.updateItem(itemUpdate);
+    }
+    
+    
+    @RequestMapping(value = "/compra/item", method = RequestMethod.PUT)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void buyItem(@RequestBody Item item){
+        item.setCantidad(item.getCantidad()-1);
+        is.updateItem(item);
+        //Servicio agregar en tabla de items comprados
+        is.saveCompra(item);
     }
     
     

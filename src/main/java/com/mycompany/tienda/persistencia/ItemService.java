@@ -28,15 +28,13 @@ public class ItemService {
         cn = new ConnectionPostgres();
         try {
             conex = cn.connect();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException | IllegalAccessException ex) {
             Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public void saveItem(Item item){
-        String sql = "insert into items (nombre,descripcion,valor,iva,envio,foto) values(?,?,?,?,?,?)";
+        String sql = "insert into items (nombre,descripcion,valor,iva,envio,foto,cantidad) values(?,?,?,?,?,?,?)";
         try {
             PreparedStatement ps = conex.prepareStatement(sql);
             ps.setString(1, item.getNombre());
@@ -45,6 +43,7 @@ public class ItemService {
             ps.setFloat(4, item.getIva());
             ps.setString(5, item.getEnvio());
             ps.setBlob(6, item.getFoto());
+            ps.setInt(7, item.getCantidad());
             ps.executeUpdate();
             System.out.println("Guardo el item");
         } catch (SQLException ex) {
@@ -60,12 +59,13 @@ public class ItemService {
             ps.setString(1, itemName);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                it.setNombre(rs.getString(1));
-                it.setDescripcion(rs.getString(2));
-                it.setValor(rs.getInt(3));
-                it.setIva(rs.getFloat(4));
-                it.setEnvio(rs.getString(5));
-                it.setFoto(rs.getBlob(6));
+                it.setNombre(rs.getString(2));
+                it.setDescripcion(rs.getString(3));
+                it.setValor(rs.getInt(4));
+                it.setIva(rs.getFloat(5));
+                it.setEnvio(rs.getString(6));
+                it.setFoto(rs.getBlob(7));
+                it.setCantidad(rs.getInt(8));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,12 +81,14 @@ public class ItemService {
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 Item it = new Item();
-                it.setNombre(rs.getString(1));
-                it.setDescripcion(rs.getString(2));
-                it.setValor(rs.getInt(3));
-                it.setIva(rs.getFloat(4));
-                it.setEnvio(rs.getString(5));
-                it.setFoto(rs.getBlob(6));
+                it.setId(rs.getInt(1));
+                it.setNombre(rs.getString(2));
+                it.setDescripcion(rs.getString(3));
+                it.setValor(rs.getInt(4));
+                it.setIva(rs.getFloat(5));
+                it.setEnvio(rs.getString(6));
+                it.setFoto(rs.getBlob(7));
+                it.setCantidad(rs.getInt(8));
                 items.add(it);
             }
         } catch (SQLException ex) {
@@ -95,15 +97,106 @@ public class ItemService {
         return items;
     }
     
-    public void deleteItemByName(String itemName){
-        String sql = "delete from items where nombre = ?";
+    private Item getItemById(int itemId){
+        Item it = new Item();
+        String sql = "select * from items where id = ?";
+        PreparedStatement ps;
+        try {
+            ps = conex.prepareStatement(sql);
+            ps.setInt(1, itemId);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                it.setNombre(rs.getString(2));
+                it.setDescripcion(rs.getString(3));
+                it.setValor(rs.getInt(4));
+                it.setIva(rs.getFloat(5));
+                it.setEnvio(rs.getString(6));
+                it.setFoto(rs.getBlob(7));
+                it.setCantidad(rs.getInt(8));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return it;
+        
+    }
+    
+    public void deleteItemById(int itemId){
+        String sql = "delete from items where id = ?";
         try {
             PreparedStatement ps = conex.prepareStatement(sql);
-            ps.setString(1, itemName);
+            ps.setInt(1, itemId);
             ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void updateItem(Item itemUpdated){
+        Item oldItem = getItemById(itemUpdated.getId());
+        if(!oldItem.getNombre().equals(itemUpdated.getNombre())){
+            updateSql("nombre", itemUpdated.getId(), itemUpdated.getNombre());
+        }if(!oldItem.getDescripcion().equals(itemUpdated.getDescripcion())){
+            updateSql("descripcion", itemUpdated.getId(), itemUpdated.getDescripcion());
+        }if(oldItem.getValor() != itemUpdated.getValor()){
+            updateSql("valor", itemUpdated.getId(), itemUpdated.getValor());
+        }if(oldItem.getIva() != itemUpdated.getIva()){
+            updateSql("iva", itemUpdated.getId(), itemUpdated.getIva());
+        }if(oldItem.getFoto() != itemUpdated.getFoto()){
+            updateSql("foto", itemUpdated.getId(), itemUpdated.getFoto());
+        }if(oldItem.getCantidad() != itemUpdated.getCantidad()){
+            updateSql("cantidad", itemUpdated.getId(), itemUpdated.getCantidad());
+        }
+    }
+    
+    public void saveCompra(Item item){
+        String sql = "insert into itemsComprados(nombre,descripcion,valor,iva,envio) values(?,?,?,?,?)";
+        try {
+            PreparedStatement ps = conex.prepareStatement(sql);
+            ps.setString(1, item.getNombre());
+            ps.setString(2, item.getDescripcion());
+            ps.setInt(3, item.getValor());
+            ps.setFloat(4, item.getIva());
+            ps.setString(5, item.getEnvio());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void updateSql(String column,int itemId,Object value){
+        String sql = "update items set "+column+" = ?"+" where id =?";
+        try {
+            PreparedStatement ps = conex.prepareStatement(sql);
+            ps.setObject(1, value);
+            ps.setInt(2, itemId);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public List<Item> soldItems(){
+        List<Item> soldItems = new ArrayList<>();
+        String sql =  "select * from itemscomprados";
+        try {
+            PreparedStatement ps = conex.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Item it = new Item();
+                it.setId(rs.getInt(1));
+                it.setNombre(rs.getString(2));
+                it.setDescripcion(rs.getString(3));
+                it.setValor(rs.getInt(4));
+                it.setIva(rs.getFloat(5));
+                it.setEnvio(rs.getString(6));
+                soldItems.add(it);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return soldItems;
     }
     
     

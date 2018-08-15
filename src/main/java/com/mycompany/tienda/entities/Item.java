@@ -13,21 +13,24 @@ import java.sql.Blob;
  */
 public class Item {
     
+    private int id;
     private String nombre;
     private String descripcion;
     private int valor;
     private float iva;
     private String envio;
+    private int cantidad;
     private Blob foto;
     
     public Item(){}
     
-    public Item(String nombre,String descripcion,int valor,float iva,String envio,Blob foto){
+    public Item(String nombre,String descripcion,int valor,float iva,String envio,Blob foto,int cantidad){
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.valor = valor;
         this.iva = iva;
         this.envio = envio;
+        this.cantidad = cantidad;
         this.foto = foto;
     }
 
@@ -113,6 +116,34 @@ public class Item {
      */
     public void setFoto(Blob foto) {
         this.foto = foto;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the cantidad
+     */
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    /**
+     * @param cantidad the cantidad to set
+     */
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
     
     

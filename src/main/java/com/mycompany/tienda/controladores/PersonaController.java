@@ -36,16 +36,15 @@ public class PersonaController {
     
     @RequestMapping(value = "/persona/{usuario}/{pw}", method = RequestMethod.GET)
     @ResponseBody
-    public Persona getPersonaByUserPw(@PathVariable String usuario,@PathVariable String pw){
-        //Servicio obtener persona por usuario y contraseña
-        Persona p = ps.getPersonaByUserPw(usuario, pw);
-        return p;
+    public Boolean userLogin(@PathVariable String usuario,@PathVariable String pw){
+        //Servicio ingreso de persona por usuario y contraseña
+        return ps.userLogin(usuario, pw);
     }
     
     @RequestMapping(value = "/admin/{usr}/{psw}", method = RequestMethod.GET)
     @ResponseBody
     public Boolean adminLogIn(@PathVariable String usr,@PathVariable String psw){
-        //Servicio logeo por administrador
+        //Servicio ingreso de administrador
         return ps.adminLogIn(usr, psw);
     }
     

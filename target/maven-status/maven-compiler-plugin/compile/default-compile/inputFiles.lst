@@ -1,6 +1,8 @@
-C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\persistencia\ConnectionPostgres.java
-C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\controladores\PersonaController.java
-C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\entities\Persona.java
+C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\com\mycompany\tienda\entities\Item.java
+C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\com\mycompany\tienda\persistencia\ItemService.java
+C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\com\mycompany\tienda\controladores\PersonaController.java
+C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\com\mycompany\tienda\controladores\ItemController.java
+C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\com\mycompany\tienda\entities\Persona.java
+C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\com\mycompany\tienda\persistencia\ConnectionPostgres.java
+C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\com\mycompany\tienda\persistencia\PersonaService.java
 C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\com\mycompany\tienda\TiendaMain.java
-C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\entities\Item.java
-C:\Users\germa_000\Documents\TiendaFusepong\src\main\java\controladores\ItemController.java

@@ -1,6 +1,8 @@
-controladores\ItemController.class
+com\mycompany\tienda\controladores\PersonaController.class
+com\mycompany\tienda\entities\Persona.class
+com\mycompany\tienda\controladores\ItemController.class
+com\mycompany\tienda\persistencia\PersonaService.class
+com\mycompany\tienda\entities\Item.class
+com\mycompany\tienda\persistencia\ConnectionPostgres.class
 com\mycompany\tienda\TiendaMain.class
-controladores\PersonaController.class
-entities\Persona.class
-entities\Item.class
-persistencia\ConnectionPostgres.class
+com\mycompany\tienda\persistencia\ItemService.class
