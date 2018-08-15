@@ -66,10 +66,13 @@ app.controller('myCtrl', function($scope,$http,$q) {
         return deferred.promise;
     }
     
-    function saveItemService(item){
+    function saveItemService(itemImage){
         var deferred = $q.defer();
-        var url = '/api/item/';
-        $http.post(url,item).then(function success(){
+        var url = '/api/item';
+        $http.post(url,itemImage,{
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        }).then(function success(){
             deferred.resolve();
         }, function fail(){
             deferred.reject();
@@ -113,6 +116,7 @@ app.controller('myCtrl', function($scope,$http,$q) {
         });
     };
     
+    
     $scope.addItem = function(){
         nombre = $("#nombre").val();
         descripcion = $("#descripcion").val();
@@ -127,13 +131,19 @@ app.controller('myCtrl', function($scope,$http,$q) {
         item.iva =iva;
         item.envio = envio;
         item.cantidad = cantidad;
-        saveItemService(item).then(function(){
+        var formData = new FormData();
+        formData.append('item', new Blob([JSON.stringify(item)],{type: "application/json"}));
+        //formData.append('item',item);
+        formData.append('file',$scope.imagen);
+        saveItemService(formData).then(function(){
             console.log("Se agregó el item");
+            console.log($scope.imagen);
         });
          window.location.href='adminItems.html'; 
     };
     
     getItems().then(function(result){
+        console.log(result);
        $scope.items = result;
     });
     
@@ -152,6 +162,19 @@ app.controller('myCtrl', function($scope,$http,$q) {
 
      };
     
+    $scope.imagen;
+    
+    $scope.uploadFile = function(files) {
+        if (files && files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imageItem').attr('src', e.target.result);
+            };
+        reader.readAsDataURL(files[0]);
+        }
+        console.log(files[0]);
+        $scope.imagen = files[0];
+    };
     
     $scope.updateItem = function(){
         item = new Item();
@@ -188,5 +211,6 @@ app.controller('myCtrl', function($scope,$http,$q) {
     };
     
 });
+
 
 

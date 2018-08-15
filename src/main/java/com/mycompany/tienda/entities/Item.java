@@ -20,11 +20,11 @@ public class Item {
     private float iva;
     private String envio;
     private int cantidad;
-    private Blob foto;
+    private byte[] foto;
     
     public Item(){}
     
-    public Item(String nombre,String descripcion,int valor,float iva,String envio,Blob foto,int cantidad){
+    public Item(String nombre,String descripcion,int valor,float iva,String envio,byte[] foto,int cantidad){
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.valor = valor;
@@ -107,14 +107,14 @@ public class Item {
     /**
      * @return the foto
      */
-    public Blob getFoto() {
+    public byte[] getFoto() {
         return foto;
     }
 
     /**
      * @param foto the foto to set
      */
-    public void setFoto(Blob foto) {
+    public void setFoto(byte[] foto) {
         this.foto = foto;
     }
 

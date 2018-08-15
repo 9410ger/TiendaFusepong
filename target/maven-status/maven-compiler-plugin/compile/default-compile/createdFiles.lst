@@ -5,4 +5,5 @@ com\mycompany\tienda\persistencia\PersonaService.class
 com\mycompany\tienda\entities\Item.class
 com\mycompany\tienda\persistencia\ConnectionPostgres.class
 com\mycompany\tienda\TiendaMain.class
+.netbeans_automatic_build
 com\mycompany\tienda\persistencia\ItemService.class

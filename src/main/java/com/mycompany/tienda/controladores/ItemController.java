@@ -16,6 +16,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.mycompany.tienda.persistencia.ItemService;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.midi.SysexMessage;
+import javax.sql.rowset.serial.SerialBlob;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 
 
@@ -54,9 +71,18 @@ public class ItemController {
     
     @RequestMapping(value = "/item", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public void saveItem(@RequestBody Item item){
-        //Servicio obtener todos los item
-        is.saveItem(item);
+    public void saveItem(@RequestPart(value ="item")Item item,@RequestPart(value ="file", required = false) MultipartFile request){
+        try {
+            File imagenP = new File(request.getOriginalFilename());
+            imagenP.createNewFile();
+            FileOutputStream fos = new FileOutputStream(imagenP);
+            fos.write(request.getBytes());
+            fos.close();
+            is.saveItem(item,imagenP);
+            } catch (IOException ex) {
+                Logger.getLogger(ItemController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
     }
     
     @RequestMapping(value = "/item/{itemId}", method = RequestMethod.DELETE)

@@ -23,9 +23,9 @@
 		<artifactId>spring-boot-starter-web</artifactId>
 	</dependency>
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>8.4-702.jdbc3</version>
+            <version>42.2.2</version>
         </dependency>
     </dependencies>
    

@@ -18,11 +18,19 @@ and open the template in the editor.
         <div>Lista de items</div>
         <div ng-app="itemsFusepong" ng-controller="myCtrl">
          <table  border="1">
+            <tr>
+                 <td>Nombre</td>
+                 <td>Descripcion</td>
+                 <td>Valor</td>
+                 <td>Cantidad</td>
+                 <td>Imagen</td>
+             </tr>
             <tr ng-repeat="item in items">
                 <td>{{item.nombre}}</td>
                 <td>{{item.descripcion}}</td>
-                <td>{{item.valor}}$</td>
+                <td>{{item.valor + (item.iva * item.valor)}}$</td>
                 <td>{{item.cantidad}}</td>
+                <td><img src="data:image/*;base64,{{item.foto}}" style="width: 120px;height: 120px"></td>
                 <td><button ng-click="buyItem(item)">Comprar</button></td>
             </tr>
          </table>

@@ -17,6 +17,13 @@ and open the template in the editor.
         <div>Items comprados </div>
          <div ng-app="itemsFusepong" ng-controller="myCtrl">
          <table  border="1">
+            <tr>
+                <td>Nombre</td>
+                <td>Descripcion</td>
+                <td>Valor</td>
+                <td>Iva</td>
+                <td>Envio</td>
+            </tr>
             <tr ng-repeat="item in soldItems">
                 <td>{{item.nombre}}</td>
                 <td>{{item.descripcion}}</td>

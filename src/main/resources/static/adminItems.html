@@ -19,6 +19,15 @@ and open the template in the editor.
         <button onclick="viewSoldItem()">Items comprados</button>
        <div ng-app="itemsFusepong" ng-controller="myCtrl">
          <table  border="1">
+             <tr>
+                 <td>Nombre</td>
+                 <td>Descripcion</td>
+                 <td>Valor</td>
+                 <td>Iva</td>
+                 <td>Envio</td>
+                 <td>Cantidad</td>
+                 <td>Imagen</td>
+             </tr>
             <tr ng-repeat="item in items">
                 <td>{{item.nombre}}</td>
                 <td>{{item.descripcion}}</td>
@@ -26,6 +35,7 @@ and open the template in the editor.
                 <td>{{item.iva}}</td>
                 <td>{{item.envio}}</td>
                 <td>{{item.cantidad}}</td>
+                <td><img src="data:image/*;base64,{{item.foto}}" style="width: 120px;height: 120px"></td>
                 <td><button ng-click="deleteItem(item.id)">Borrar</button></td>
                 <td><button ng-click="updateItemView(item)">Actualizar</button></td>
             </tr>

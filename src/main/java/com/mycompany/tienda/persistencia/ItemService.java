@@ -6,6 +6,9 @@
 package com.mycompany.tienda.persistencia;
 
 import com.mycompany.tienda.entities.Item;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,8 +36,9 @@ public class ItemService {
         }
     }
     
-    public void saveItem(Item item){
+    public void saveItem(Item item,File imagen) throws FileNotFoundException{
         String sql = "insert into items (nombre,descripcion,valor,iva,envio,foto,cantidad) values(?,?,?,?,?,?,?)";
+        FileInputStream fis = new FileInputStream(imagen);
         try {
             PreparedStatement ps = conex.prepareStatement(sql);
             ps.setString(1, item.getNombre());
@@ -42,7 +46,7 @@ public class ItemService {
             ps.setInt(3, item.getValor());
             ps.setFloat(4, item.getIva());
             ps.setString(5, item.getEnvio());
-            ps.setBlob(6, item.getFoto());
+            ps.setBinaryStream(6,fis,imagen.length());
             ps.setInt(7, item.getCantidad());
             ps.executeUpdate();
             System.out.println("Guardo el item");
@@ -64,7 +68,7 @@ public class ItemService {
                 it.setValor(rs.getInt(4));
                 it.setIva(rs.getFloat(5));
                 it.setEnvio(rs.getString(6));
-                it.setFoto(rs.getBlob(7));
+                it.setFoto(rs.getBytes(7));
                 it.setCantidad(rs.getInt(8));
             }
         } catch (SQLException ex) {
@@ -87,7 +91,7 @@ public class ItemService {
                 it.setValor(rs.getInt(4));
                 it.setIva(rs.getFloat(5));
                 it.setEnvio(rs.getString(6));
-                it.setFoto(rs.getBlob(7));
+                it.setFoto(rs.getBytes(7));
                 it.setCantidad(rs.getInt(8));
                 items.add(it);
             }
@@ -111,7 +115,7 @@ public class ItemService {
                 it.setValor(rs.getInt(4));
                 it.setIva(rs.getFloat(5));
                 it.setEnvio(rs.getString(6));
-                it.setFoto(rs.getBlob(7));
+                it.setFoto(rs.getBytes(7));
                 it.setCantidad(rs.getInt(8));
             }
         } catch (SQLException ex) {

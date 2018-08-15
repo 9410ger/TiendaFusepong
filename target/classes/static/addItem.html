@@ -28,7 +28,10 @@ and open the template in the editor.
         <br/>
         <input type="number" placeholder="Cantidad" id="cantidad"></input>
         <br/>
-        <button>Cargar imagen</button>
+        <form enctype="multipart/form-data" method="post">
+            <input type="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+        </form>  
+        <img id="imageItem" src="" alt="your image" style="width:200px; height:200px;" />
         <br/>
         <input type="button" value="Agregar item" id="button" ng-click="addItem()"></input>
         </div>
