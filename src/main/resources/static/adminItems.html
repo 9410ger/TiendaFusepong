@@ -46,6 +46,13 @@ and open the template in the editor.
             <p>Valor:<input type="number" id="valor" ng-model="editedItem.valor"></p>
             <p>Iva:<input type="text" id="iva" ng-model="editedItem.iva"></p>
             <p>Cantidad:<input type="text" id="cantidad" ng-model="editedItem.cantidad"></p>
+            <p><img src="data:image/*;base64,{{editedItem.foto}}" style="width: 120px;height: 120px"></p>
+            <form enctype="multipart/form-data" method="post">
+            <input type="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+            <div>Imagen nueva</div>
+            </form>  
+            <img id="imageItem" src="" alt="your image" style="width:200px; height:200px;" />
+            <br/>
             <button ng-click="updateItem()">Actualizar</button>
             <button ng-click="closepopup()">Cerrar</button>
          </div>

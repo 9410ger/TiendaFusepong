@@ -101,7 +101,7 @@ public class ItemService {
         return items;
     }
     
-    private Item getItemById(int itemId){
+    public Item getItemById(int itemId){
         Item it = new Item();
         String sql = "select * from items where id = ?";
         PreparedStatement ps;

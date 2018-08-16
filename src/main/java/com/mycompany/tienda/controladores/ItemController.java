@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.mycompany.tienda.persistencia.ItemService;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -28,6 +31,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.midi.SysexMessage;
 import javax.sql.rowset.serial.SerialBlob;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -94,8 +99,24 @@ public class ItemController {
     
     @RequestMapping(value = "/item", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
-    public void updateItem(@RequestBody Item itemUpdate){
-        is.updateItem(itemUpdate);
+    public void updateItem(@RequestPart(value ="item")Item itemUpdate,@RequestPart(value ="file", required = false) MultipartFile request){
+        if(request != null){
+            try {
+                File imagenUpdate = new File(request.getOriginalFilename());
+                imagenUpdate.createNewFile();
+                FileOutputStream fos = new FileOutputStream(imagenUpdate);
+                fos.write(request.getBytes());
+                fos.close();
+                byte[] foto = Files.readAllBytes(imagenUpdate.toPath());
+                itemUpdate.setFoto(foto);
+                is.updateItem(itemUpdate);
+            } catch (IOException ex) {
+                Logger.getLogger(ItemController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            itemUpdate.setFoto(is.getItemById(itemUpdate.getId()).getFoto());
+            is.updateItem(itemUpdate);
+        }
     }
     
     

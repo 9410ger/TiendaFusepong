@@ -94,7 +94,10 @@ app.controller('myCtrl', function($scope,$http,$q) {
     function updateItemService(item){
         var deferred = $q.defer();
         var url = '/api/item';
-        $http.put(url,item).then(function success(){
+        $http.put(url,item,{
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        }).then(function success(){
             deferred.resolve();
         },function fail(){
             deferred.reject();
@@ -106,6 +109,7 @@ app.controller('myCtrl', function($scope,$http,$q) {
         deleteItemService(itemId).then(function(){
             console.log("Se eliminó el item");
         });
+        window.location.reload();
     };
     
     $scope.buyItem = function(item){
@@ -114,6 +118,7 @@ app.controller('myCtrl', function($scope,$http,$q) {
         buyItemService(item).then(function(){
             console.log("Item comprado");
         });
+        window.location.reload();
     };
     
     
@@ -205,9 +210,14 @@ app.controller('myCtrl', function($scope,$http,$q) {
         }else{
             item.cantidad = $scope.editedItem.cantidad;
         }
-        updateItemService(item).then(function(){
+        var formData = new FormData();
+        formData.append('item', new Blob([JSON.stringify(item)],{type: "application/json"}));
+        formData.append('file',$scope.imagen);
+        
+        updateItemService(formData).then(function(){
             console.log("Actualizó el item");
         });
+        $scope.istrue = false;
     };
     
 });
